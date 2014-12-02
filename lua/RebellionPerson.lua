@@ -16,9 +16,8 @@ function RebellionPerson(model)
 		jailExecute = function(self)
 			self.timeInJail = self.timeInJail - 1
 			if self.timeInJail == 0 then
-				selfCell = randomWorldTypeCell(cs, function(cell) return cell.state == EMPTY end)
+				selfCell = cs:getEmptyCell()
 				self:enter(selfCell)
-				-- Setting an state, anyway it could be changed down 
 				self.state = QUIET
 				self.execute = self.normalExecute
 			end
@@ -53,9 +52,15 @@ function RebellionPerson(model)
 			end
 			self:getCell().state = self.state
 			-- The person tries to move
-			if (self.state == QUIET) and (countQuiets < NEEDED_AMOUNT_HOMOLOGS)
-				or (self.state == REBEL) and (countRebels < NEEDED_AMOUNT_HOMOLOGS) then
-				tryMoveToTypeNeighCell(self, function(cell) return cell.state == EMPTY end)
+			local neededAmountHomologs = math.floor((model.visibilityRange ^ 2)/2 + 1)
+			if (self.state == QUIET and countQuiets < neededAmountHomologs) or (self.state == REBEL and countRebels < neededAmountHomologs) then
+			    local currentCell = self:getCell()
+			    local destinationCell = currentCell:getNeighborhood():sample()
+			    if destinationCell.state == EMPTY then
+			        self:move(destinationCell)
+			        destinationCell.state = self.state
+			        currentCell.state = EMPTY
+			    end
 			end
 		end
 	}

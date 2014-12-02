@@ -13,6 +13,7 @@ Rebellion = Model{
 	maxJailTime = 10,
 	visibilityRadius = 2,
 	copsSuperiority = 2,
+	rebellingThreshold = 1,
 	grid = {
 		width = 40,
 		height = 40
@@ -33,6 +34,13 @@ Rebellion = Model{
 		model.env       = RebellionEnvironment(model)
 		model.timer     = RebellionTimer(model)
 		RebellionObserver(model)
+	end,
+	interface = function()
+		return{
+			{"grid", "initialDensity", "copsSuperiority"},
+			{"maxJailTime", "initialRebelProbability", "governmentLegitimacy", "visibilityRadius", "rebellingThreshold"}
+			{"display", "delay", "iterations"}
+		}
 	end
 }
 

@@ -4,10 +4,12 @@ function RebellionCop(agent)
 		state = COP,
 		init = function(self)
 			rand = Rand()
-			tolerance = rand:number(0,1)
+			tolerance = rand:number(0, 1)
 		end,
 		jail = function(self, agent)
-			agent.timeInJail = getRandomInclusiveInteger(0, MAX_JAIL_TIME)
+			local r = Random()
+			agent.timeInJail = r:integer(0, model.maxJailTime)
+			agent.state = JAIL
 			if agent.timeInJail > 0 then
 				agent:leave()
 				agent.execute = agent.executeJail
@@ -35,7 +37,8 @@ function RebellionCop(agent)
 			if rebelsCount / (copsCount + 1) <= model.copsSuperiority then
 				if rebelsCount > 0 then
 					-- Choose the victim
-					local victimCell = rebelsCells[getRandomInclusiveInteger(1, rebelsCount)]
+					local r = Random()
+					local victimCell = r:sample(rebelsCells)
 					-- Imprison it
 					local victimAgent = victimCell:getAgent()
 					local randNumTolerance = rand:number(0, 1)
@@ -47,7 +50,14 @@ function RebellionCop(agent)
 						return
 					end
 				end
-				tryMoveToTypeNeighCell(self, function(cell) return cell.state == EMPTY end)
+
+			    local currentCell = self:getCell()
+			    local destinationCell = currentCell:getNeighborhood():sample()
+			    if destinationCell.state == EMPTY then
+			        self:move(destinationCell)
+			        destinationCell.state = self.state
+			        currentCell.state = EMPTY
+			    end	
 			end
 		end
 	}
