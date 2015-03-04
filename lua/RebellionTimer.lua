@@ -6,7 +6,7 @@ function RebellionTimer(model)
 			print("-------------------------------")
 			return false
 		end},
-		Event{priority = 0, action = execute(model.cs, "resetWorldStatistics")},
+		Event{action = call(model.cs, "resetWorldStatistics")},
 		Event{priority = 1, action = model.socCops},
 		Event{priority = 2, action = model.socPeople},
 		Event{priority = 4, action = model.cs},

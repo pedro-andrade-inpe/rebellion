@@ -6,7 +6,7 @@ function RebellionEnvironment(model)
 		model.socCops
 	}
 
-	e:createPlacement{strategy = "random", max = 1}
+	e:createPlacement{max = 1}
 
 	forEachAgent(model.socCops, function(agent)
 		agent:getCell().state = agent.state

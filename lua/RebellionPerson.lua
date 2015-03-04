@@ -3,15 +3,15 @@ function RebellionPerson(model)
 	return Agent{
 		timeInJail = 0,
 		init = function(self)
-			rand = Random()
-			if rand:number(0,1) < model.initialRebelProbability then
+			local rand = Random()
+			if rand:number(0, 1) < model.rebelProbability then
 				self.state = REBEL
 			else
 				self.state = QUIET
 			end
 			self.riskAversion = rand:number(0, 1)
 			self.grievance = rand:number(0, 1) * (1 - model.governmentLegitimacy)
-			self.execute = self.normalExecute,
+			self.execute = self.normalExecute
 		end,
 		jailExecute = function(self)
 			self.timeInJail = self.timeInJail - 1

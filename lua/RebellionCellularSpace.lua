@@ -38,10 +38,9 @@ RebellionCellularSpace = function(model)
 					cells[count] = cell
 				end
 			end)
-			assert(count > 0, "randomWorldTypeCell haven't found anything")
+			verify(count > 0, "randomWorldTypeCell haven't found anything")
 			return cells[getRandomInclusiveInteger(1, count)]
 		end
-
 	}
 
 	cs:createNeighborhood{
@@ -50,5 +49,6 @@ RebellionCellularSpace = function(model)
 	}
 
 	return cs
-}
+end
+
 

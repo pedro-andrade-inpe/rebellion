@@ -3,8 +3,8 @@ function RebellionCop(agent)
 	return Agent{
 		state = COP,
 		init = function(self)
-			rand = Rand()
-			tolerance = rand:number(0, 1)
+			local rand = Random()
+			self.tolerance = rand:number(0, 1)
 		end,
 		jail = function(self, agent)
 			local r = Random()

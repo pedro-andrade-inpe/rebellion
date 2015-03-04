@@ -1,7 +1,7 @@
 
 function RebellionPeopleSociety(model)
 	return Society{
-		instance = model.people,
+		instance = model.person,
 		quantity = math.floor(#model.cs * model.density.people)
 	}
 end
